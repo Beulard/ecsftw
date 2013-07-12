@@ -19,16 +19,18 @@ class GraphicSystem : public System
 
         void AddSpriteBatch( const std::string& name, SpriteBatch* batch );
 
-        void SetBatch( u32 id, const std::string& name );
-        void SetBatch( u32 id, SpriteBatch* batch );
-        void SetPosition( u32 id, int x, int y );
-        void SetSize( u32 id, int w, int h );
-        void SetTexCoords( u32 id, int topLeftX, int topLeftY, int bottomRightX, int bottomRightY );
+        void SetSpriteBatch( u32 id, const std::string& name );
+        void SetSpriteBatch( u32 id, SpriteBatch* batch );
+        void SetSpritePosition( u32 id, int x, int y );
+        void SetSpriteSize( u32 id, int w, int h );
+        void SetSpriteTexCoords( u32 id, int topLeftX, int topLeftY, int bottomRightX, int bottomRightY );
 
         void SetTextString( u32 id, const std::string& s );
         void SetTextPosition( u32 id, int x, int y );
 
-        void AddFrame( u32 id, int topLeftX, int topLeftY, int bottomRightX, int bottomRightY );
+        void SetAnimPosition( u32 id, int x, int y );
+        void SetAnimSize( u32 id, int w, int h );
+        void AddFrame( u32 id, int topLeftX, int topLeftY, int bottomRightX, int bottomRightY, float time );
         void SetFrameTime( u32 id, u32 frameID, float time );
 
         void Draw( u32 id );

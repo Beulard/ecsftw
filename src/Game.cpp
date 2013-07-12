@@ -8,6 +8,7 @@
 #include "Systems.hpp"
 #include "SpriteFactory.hpp"
 #include "TextFactory.hpp"
+#include "AnimFactory.hpp"
 #include "Time.hpp"
 
 Game::Game() {
@@ -65,6 +66,7 @@ bool Game::Init() {
     ResourceManager::LoadShader( "sprite.vs", "sprite.fs", false );
     ResourceManager::LoadTexture( "tetriminos.png" );
     ResourceManager::LoadTexture( "font.png" );
+    ResourceManager::LoadTexture( "menu.png" );
 
     ComponentManager::AddComponentType<PhysicsComponent>();
     ComponentManager::AddComponentType<GraphicComponent>( 50 );
@@ -73,6 +75,7 @@ bool Game::Init() {
     GraphicSystem* graphic = (GraphicSystem*)Systems::Get( "graphic" );
     graphic->AddSpriteBatch( "tetriminos", new SpriteBatch( ResourceManager::GetTexture( "tetriminos.png" ), ResourceManager::GetShader( "sprite" ) ) );
     graphic->AddSpriteBatch( "font", new SpriteBatch( ResourceManager::GetTexture( "font.png" ), ResourceManager::GetShader( "sprite" ) ) );
+    graphic->AddSpriteBatch( "menu", new SpriteBatch( ResourceManager::GetTexture( "menu.png" ), ResourceManager::GetShader( "sprite" ) ) );
 
     return true;
 }
@@ -88,6 +91,14 @@ void Game::Run() {
     u32 ent1 = EntityManager::Create();
     TextFactory::AttachText( ent1, "0123456789", "font", Pos( 0, 64 ) );
     graphic->DrawText( ent1 );
+
+    u32 ent2 = EntityManager::Create();
+    std::vector< FrameInfo > frames;
+    frames.push_back( FrameInfo { TexCoord(100, 0), TexCoord(200, 27), 1.f } );
+    frames.push_back( FrameInfo { TexCoord(200, 0), TexCoord(300, 27), 1.f } );
+    frames.push_back( FrameInfo { TexCoord(300, 0), TexCoord(400, 27), 1.f } );
+    AnimFactory::AttachAnim( ent2, "menu", Pos(0, 200), Size(100, 27), frames );
+    graphic->DrawAnim( ent2 );
 
     float oneSecTimer = 0;
     while(running) {

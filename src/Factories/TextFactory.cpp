@@ -12,7 +12,7 @@ namespace TextFactory {
     void AttachText( u32 id, const std::string& text, const std::string& batch, const Pos& pos ) {
         GraphicSystem* graphic = (GraphicSystem*)Systems::Get( "graphic" );
         graphic->AttachText( id );
-        graphic->SetTextBatch( id, batch );
+        graphic->SetSpriteBatch( id, batch );
         graphic->SetTextString( id, text );
         graphic->SetTextPosition( id, pos.x, pos.y );
     }

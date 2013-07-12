@@ -87,7 +87,7 @@ void GraphicSystem::AddSpriteBatch( const std::string& name, SpriteBatch* batch 
     batches.insert( std::pair< wash, SpriteBatch* >( id, batch ) );
 }
 
-void GraphicSystem::SetBatch( u32 id, const std::string& batch ) {
+void GraphicSystem::SetSpriteBatch( u32 id, const std::string& batch ) {
     wash batchID = Wash::Get( batch );
     auto it = batches.find( batchID );
     if( it == batches.end() ) {
@@ -97,23 +97,23 @@ void GraphicSystem::SetBatch( u32 id, const std::string& batch ) {
     ((GraphicComponent*)entities[id])->batch = it->second;
 }
 
-void GraphicSystem::SetBatch( u32 id, SpriteBatch* batch ) {
+void GraphicSystem::SetSpriteBatch( u32 id, SpriteBatch* batch ) {
     ((GraphicComponent*)entities[id])->batch = batch;
 }
 
-void GraphicSystem::SetPosition( u32 id, int x, int y ) {
+void GraphicSystem::SetSpritePosition( u32 id, int x, int y ) {
     GraphicComponent* sprite = (GraphicComponent*)entities[id];
     sprite->x = x;
     sprite->y = y;
 }
 
-void GraphicSystem::SetSize( u32 id, int w, int h ) {
+void GraphicSystem::SetSpriteSize( u32 id, int w, int h ) {
     GraphicComponent* sprite = (GraphicComponent*)entities[id];
     sprite->width = w;
     sprite->height = h;
 }
 
-void GraphicSystem::SetTexCoords( u32 id, int topLeftX, int topLeftY, int bottomRightX, int bottomRightY ) {
+void GraphicSystem::SetSpriteTexCoords( u32 id, int topLeftX, int topLeftY, int bottomRightX, int bottomRightY ) {
     GraphicComponent* sprite = (GraphicComponent*)entities[id];
     vec2ui sz = sprite->batch->GetTexture()->GetSize();
     sprite->topLeftX = (float)topLeftX / sz.x;
@@ -179,24 +179,31 @@ void GraphicSystem::SetTextPosition( u32 id, int x, int y ) {
     }
 }
 
-void GraphicSystem::SetAnimBatch( u32 id, const std::string& name ) {
-    SetSpriteBatch( id, name );
-}
-
 void GraphicSystem::SetAnimPosition( u32 id, int x, int y ) {
-    SetSpritePosition( id, x, y );
+    std::vector<u32>& ents = anims[id];
+    for( u32 i = 0 ; i < ents.size(); ++i ) {
+        SetSpritePosition( ents[i], x, y );
+    }
 }
 
-void GraphicSystem::
+void GraphicSystem::SetAnimSize( u32 id, int w, int h ) {
+    std::vector<u32>& ents = anims[id];
+    for( u32 i = 0 ; i < ents.size(); ++i ) {
+        SetSpriteSize( ents[i], w, h );
+    }
+}
 
 void GraphicSystem::AddFrame( u32 id, int topLeftX, int topLeftY, int bottomRightX, int bottomRightY, float time ) {
-    GraphicComponent* compo = (GraphicComponent*)entities[id];
+    GraphicComponent* anim = (GraphicComponent*)entities[id];
     std::vector<u32>& ents = anims[id];
     ents.push_back( EntityManager::Create() );
     Attach( ents.back() );
-    SetSpriteBatch( ents.back(), compo->batch );
-    SetSpritePosition( ents.back(), compo->x, compo->y );
-    SetSpriteSize( ents.back(), compo->width, compo->height );
+    GraphicComponent* newFrame = (GraphicComponent*)entities[ents.back()];
+    SetSpriteBatch( ents.back(), anim->batch );
+    SetSpritePosition( ents.back(), anim->x, anim->y );
+    SetSpriteTexCoords( ents.back(), topLeftX, topLeftY, bottomRightX, bottomRightY );
+    SetSpriteSize( ents.back(), anim->width, anim->height );
+    newFrame->time = time;
 }
 
 void GraphicSystem::Draw( u32 id ) {
@@ -229,6 +236,26 @@ void GraphicSystem::StopDrawingText( u32 id ) {
 
 bool GraphicSystem::IsTextDrawn( u32 id ) {
     std::vector<u32>& ents = texts[id];
+    return IsDrawn( ents.back() );
+}
+
+void GraphicSystem::DrawAnim( u32 id ) {
+    std::vector<u32>& ents = anims[id];
+    for( u32 i = 0; i < ents.size(); ++i ) {
+        Draw( ents[i] );
+    }
+}
+
+void GraphicSystem::StopDrawingAnim( u32 id ) {
+    std::vector<u32>& ents = anims[id];
+    for( u32 i = 0; i < ents.size(); ++i ) {
+        StopDrawing( ents[i] );
+    }
+
+}
+
+bool GraphicSystem::IsAnimDrawn( u32 id ) {
+    std::vector<u32>& ents = anims[id];
     return IsDrawn( ents.back() );
 }
 
