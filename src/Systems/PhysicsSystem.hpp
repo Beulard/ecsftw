@@ -1,16 +1,14 @@
 #ifndef PHYSICSSYSTEM_HPP
 #define PHYSICSSYSTEM_HPP
-#include "System.hpp"
 
-class PhysicsSystem : public System {
-    public:
-        PhysicsSystem();
-        ~PhysicsSystem();
+typedef unsigned int u32;
 
-        virtual void Attach( u32 id );
-        virtual void Detach( u32 id );
+namespace PhysicsSystem {
 
-    private:
-};
+	void Attach( u32 id );
+	void Detach( u32 id );
+	bool IsAttached( u32 id );
+
+}
 
 #endif // PHYSICSSYSTEM_HPP

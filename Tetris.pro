@@ -26,13 +26,11 @@ SOURCES += \
     src/Shader.cpp \
     src/FragmentShader.cpp \
     src/Texture.cpp \
-    src/Systems/System.cpp \
     src/Systems/PhysicsSystem.cpp \
     src/Wash.cpp \
     src/Systems/GraphicSystem.cpp \
     src/Camera.cpp \
     src/Factories/SpriteFactory.cpp \
-    src/Systems/Systems.cpp \
     src/Time.cpp \
     src/Factories/TextFactory.cpp \
     src/Managers/ResourceManager.cpp \
@@ -53,13 +51,11 @@ HEADERS += \
     src/Shader.hpp \
     src/Texture.hpp \
     src/Component.hpp \
-    src/Systems/System.hpp \
     src/Systems/PhysicsSystem.hpp \
     src/Wash.hpp \
     src/Systems/GraphicSystem.hpp \
     src/Camera.hpp \
     src/Factories/SpriteFactory.hpp \
-    src/Systems/Systems.hpp \
     src/Time.hpp \
     src/Factories/TextFactory.hpp \
     src/Factories/AnimFactory.hpp \

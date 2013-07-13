@@ -5,30 +5,18 @@
 typedef unsigned int u32;
 class SpriteBatch;
 
-struct FrameInfo {
-    int topLeftX, topLeftY, bottomRightX, bottomRightY;
-    float time;
-};
-
-struct AnimInfo {
-    std::string batch;
-    int x, y;
-    u32 w, h;
-    u32 currentFrame;
-    float currentTime;
-};
-
 namespace AnimManager {
 
-    void Create( u32 id, const AnimInfo& anim );
-    void Destroy( u32 id );
+	void Create( u32 id, const std::string& batch, int x, int y, int w, int h );
+	void Destroy( u32 id );
 
-    void AddFrame( u32 id, const FrameInfo& frame );
+	void AddFrame( u32 id, int topLeftX, int topLeftY, int bottomRightX, int bottomRightY, float time );
 
-    void Draw( u32 id );
-    void StopDrawing( u32 id );
+	void Draw( u32 id );
+	void StopDrawing( u32 id );
+	bool IsDrawn( u32 id );
 
-    void Update();
+	void Update();
 
 }
 

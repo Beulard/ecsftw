@@ -1,25 +1,29 @@
 #include "PhysicsSystem.hpp"
 #include "ComponentManager.hpp"
 
-PhysicsSystem::PhysicsSystem() {
+namespace PhysicsSystem {
 
-}
+	std::map< u32, Component* > entities;
 
-PhysicsSystem::~PhysicsSystem() {
+	void Attach( u32 id ) {
+		PhysicsComponent* physicsComponent = ComponentManager::Create<PhysicsComponent>();
+		entities.insert( std::pair< u32, Component* >( id, physicsComponent ) );
+	}
 
-}
+	void Detach( u32 id ) {
+		auto it = entities.find( id );
+		if( it == entities.end() ) {
+			Error( "Entity %d has no physics component attached !", id );
+			return;
+		}
+		ComponentManager::Destroy<PhysicsComponent>( it->second );
+		entities.erase( it );
+	}
 
-void PhysicsSystem::Attach( u32 id ) {
-    PhysicsComponent* physicsComponent = ComponentManager::Create<PhysicsComponent>();
-    entities.insert( std::pair< u32, Component* >( id, physicsComponent ) );
-}
+	bool IsAttached( u32 id ) {
+		if( entities.find( id ) != entities.end() )
+			return true;
+		return false;
+	}
 
-void PhysicsSystem::Detach( u32 id ) {
-    auto it = entities.find( id );
-    if( it == entities.end() ) {
-        Error( "Entity %d has no physics component attached !", id );
-        return;
-    }
-    ComponentManager::Destroy<PhysicsComponent>( it->second );
-    entities.erase( it );
 }
