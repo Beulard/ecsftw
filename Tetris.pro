@@ -11,7 +11,7 @@ CONFIG(debug) {
     DEFINES += WATER_DEBUG
 }
 
-INCLUDEPATH += $$PWD/include + $$PWD/src + $$PWD/src/Systems + $$PWD/src/Factories
+INCLUDEPATH += $$PWD/include + $$PWD/src + $$PWD/src/Systems + $$PWD/src/Factories + $$PWD/src/Managers
 
 LIBS += -L$$PWD/lib/ -lglew32 -lglfw3 -lopengl32 -lgdi32 -lpng -lzlib -static -static-libgcc -static-libstdc++
 
@@ -25,13 +25,9 @@ SOURCES += \
     src/ShaderProgram.cpp \
     src/Shader.cpp \
     src/FragmentShader.cpp \
-    src/InputManager.cpp \
-    src/ResourceManager.cpp \
     src/Texture.cpp \
     src/Systems/System.cpp \
     src/Systems/PhysicsSystem.cpp \
-    src/ComponentManager.cpp \
-    src/EntityManager.cpp \
     src/Wash.cpp \
     src/Systems/GraphicSystem.cpp \
     src/Camera.cpp \
@@ -39,7 +35,12 @@ SOURCES += \
     src/Systems/Systems.cpp \
     src/Time.cpp \
     src/Factories/TextFactory.cpp \
-    src/Factories/AnimFactory.cpp
+    src/Managers/ResourceManager.cpp \
+    src/Managers/InputManager.cpp \
+    src/Managers/EntityManager.cpp \
+    src/Managers/ComponentManager.cpp \
+    src/Managers/TextManager.cpp \
+    src/Managers/AnimManager.cpp
 
 HEADERS += \
     src/FileStream.hpp \
@@ -50,14 +51,10 @@ HEADERS += \
     src/VertexShader.hpp \
     src/ShaderProgram.hpp \
     src/Shader.hpp \
-    src/InputManager.hpp \
-    src/ResourceManager.hpp \
     src/Texture.hpp \
     src/Component.hpp \
-    src/ComponentManager.hpp \
     src/Systems/System.hpp \
     src/Systems/PhysicsSystem.hpp \
-    src/EntityManager.hpp \
     src/Wash.hpp \
     src/Systems/GraphicSystem.hpp \
     src/Camera.hpp \
@@ -65,5 +62,11 @@ HEADERS += \
     src/Systems/Systems.hpp \
     src/Time.hpp \
     src/Factories/TextFactory.hpp \
-    src/Factories/AnimFactory.hpp
+    src/Factories/AnimFactory.hpp \
+    src/Managers/ResourceManager.hpp \
+    src/Managers/InputManager.hpp \
+    src/Managers/EntityManager.hpp \
+    src/Managers/ComponentManager.hpp \
+    src/Managers/TextManager.hpp \
+    src/Managers/AnimManager.hpp
 

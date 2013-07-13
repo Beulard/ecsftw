@@ -13,8 +13,6 @@ struct GraphicComponent : public Component{
         float topLeftX, topLeftY, bottomRightX, bottomRightY;
         SpriteBatch* batch;
         int batchID;
-        //  Only used for animations
-        float time;
 };
 
 #endif // COMPONENT_HPP

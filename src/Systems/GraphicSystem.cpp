@@ -6,22 +6,8 @@
 #include "EntityManager.hpp"
 #include "SpriteFactory.hpp"
 
-char charList[] = {
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-};
-
-char advanceList[] = {
-    /*a*/7, 7, 7, 7, 6, /*f*/5, 7, 7, 3, /*j*/5, 7, 4, 11, 7, 7, /*p*/7, 7, 5, 5, 5, 7, 7, /*w*/9, 7, 7, 7,
-    /*A*/8, 8, 9, 9, 7, 6, 8, 8, /*I*/5, 7, 8, 7, 9, 8, 8, /*P*/7, 8, 7, 7, 8, 8, 8, /*W*/10, 7, 8, 7,
-    /*0*/7, 7, 7, 7, 8, 8, 7, 7, 7, 7
-};
-
 GraphicSystem::GraphicSystem() {
-    for( u32 i = 0; i < 62; ++i ) {
-        ids.insert( std::pair< char, char >( charList[i], i ) );
-    }
+
 }
 
 GraphicSystem::~GraphicSystem() {
@@ -44,6 +30,7 @@ void GraphicSystem::Detach( u32 id ) {
     entities.erase( it );
 }
 
+/*
 void GraphicSystem::AttachText( u32 id ) {
     texts.insert( std::pair< u32, std::vector<u32> >( id, std::vector<u32>() ) );
     Attach( id );
@@ -80,7 +67,7 @@ void GraphicSystem::DetachAnim( u32 id ) {
     }
     anims.erase( it );
     Detach( id );
-}
+}*/
 
 void GraphicSystem::AddSpriteBatch( const std::string& name, SpriteBatch* batch ) {
     wash id = Wash::Get( name );
@@ -127,7 +114,7 @@ void GraphicSystem::SetSpriteTexCoords( u32 id, int topLeftX, int topLeftY, int 
         sprite->bottomRightY = (float)bottomRightY / sz.y;
     }
 }
-
+/*
 void GraphicSystem::SetTextString( u32 id, const std::string& s ) {
     GraphicComponent* sprite = (GraphicComponent*)entities[id];
     auto it = texts.find( id );
@@ -204,7 +191,7 @@ void GraphicSystem::AddFrame( u32 id, int topLeftX, int topLeftY, int bottomRigh
     SetSpriteTexCoords( ents.back(), topLeftX, topLeftY, bottomRightX, bottomRightY );
     SetSpriteSize( ents.back(), anim->width, anim->height );
     newFrame->time = time;
-}
+}*/
 
 void GraphicSystem::Draw( u32 id ) {
     GraphicComponent* sprite = (GraphicComponent*)entities[id];
@@ -219,7 +206,7 @@ void GraphicSystem::StopDrawing( u32 id ) {
 bool GraphicSystem::IsDrawn( u32 id ) {
     return (((GraphicComponent*)entities[id])->batchID != -1);
 }
-
+/*
 void GraphicSystem::DrawText( u32 id ) {
     std::vector<u32>& ents = texts[id];
     for( u32 i = 0; i < ents.size(); ++i ) {
@@ -257,7 +244,7 @@ void GraphicSystem::StopDrawingAnim( u32 id ) {
 bool GraphicSystem::IsAnimDrawn( u32 id ) {
     std::vector<u32>& ents = anims[id];
     return IsDrawn( ents.back() );
-}
+}*/
 
 void GraphicSystem::Render() {
     for( auto it = batches.begin(); it != batches.end(); it++ )

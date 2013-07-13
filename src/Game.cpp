@@ -8,7 +8,7 @@
 #include "Systems.hpp"
 #include "SpriteFactory.hpp"
 #include "TextFactory.hpp"
-#include "AnimFactory.hpp"
+#include "AnimManager.hpp"
 #include "Time.hpp"
 
 Game::Game() {
@@ -90,17 +90,25 @@ void Game::Run() {
 
     u32 ent1 = EntityManager::Create();
     TextFactory::AttachText( ent1, "0123456789", "font", Pos( 0, 64 ) );
-    graphic->DrawText( ent1 );
+    //graphic->DrawText( ent1 );
 
     u32 ent2 = EntityManager::Create();
-    std::vector< FrameInfo > frames;
-    frames.push_back( FrameInfo { TexCoord(100, 0), TexCoord(200, 27), 1.f } );
-    frames.push_back( FrameInfo { TexCoord(200, 0), TexCoord(300, 27), 1.f } );
-    frames.push_back( FrameInfo { TexCoord(300, 0), TexCoord(400, 27), 1.f } );
-    AnimFactory::AttachAnim( ent2, "menu", Pos(0, 200), Size(100, 27), frames );
-    graphic->DrawAnim( ent2 );
+    AnimManager::Create( ent2, AnimInfo{ "menu", 20, 200, 100, 27, 0, 0.f } );
+    AnimManager::AddFrame( ent2, FrameInfo{ 100, 0, 200, 27, 1.f } );
+    AnimManager::AddFrame( ent2, FrameInfo{ 200, 0, 300, 27, 1.f } );
+    AnimManager::AddFrame( ent2, FrameInfo{ 300, 0, 400, 27, 1.f } );
+    AnimManager::Draw( ent2 );
+
+    AnimManager::StopDrawing( ent2 );
+    AnimManager::Destroy( ent2 );
+    AnimManager::Create( ent2, AnimInfo{ "menu", 20, 200, 100, 27, 0, 0.f } );
+    AnimManager::AddFrame( ent2, FrameInfo{ 100, 0, 200, 27, 1.f } );
+    AnimManager::AddFrame( ent2, FrameInfo{ 200, 0, 300, 27, 1.f } );
+    AnimManager::AddFrame( ent2, FrameInfo{ 300, 0, 400, 27, 1.f } );
+    AnimManager::Draw( ent2 );
 
     float oneSecTimer = 0;
+    float halfSecTimer = 0;
     while(running) {
         inputs->Update();
         if( inputs->WindowShouldClose() )
@@ -113,6 +121,10 @@ void Game::Run() {
         glfwSwapBuffers( window );
 
         oneSecTimer += Time::GetElapsed();
+        halfSecTimer += Time::GetElapsed();
+        if( halfSecTimer >= .5f ) {
+
+        }
         if( oneSecTimer >= 1.f ) {
             if( graphic->IsDrawn( ent0 ) )
                 graphic->StopDrawing( ent0 );
@@ -120,7 +132,7 @@ void Game::Run() {
                 graphic->Draw( ent0 );
             oneSecTimer = 0;
         }
-
+        AnimManager::Update();
         Time::Update();
     }
 }
