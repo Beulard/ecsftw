@@ -1,74 +1,68 @@
 #include "ShaderProgram.hpp"
+#include "Output.hpp"
 #include "Common.hpp"
+#include "Shader.hpp"
 
-ShaderProgram::ShaderProgram() : vs(NULL), fs(NULL), id(0){
+ShaderProgram::ShaderProgram() : vertex(NULL), fragment(NULL), id(0){
 
 }
 
-ShaderProgram::ShaderProgram( VertexShader& pVS, FragmentShader& pFS ) : vs(&pVS), fs(&pFS), id(0){
-    Link();
+ShaderProgram::ShaderProgram( Shader& vs, Shader& fs ) : vertex(&vs), fragment(&fs), id(0){
+	Link();
 }
 
 ShaderProgram::~ShaderProgram(){
-    if( id != 0 )
-        glDeleteProgram( id );
-    if( vs )
-        delete vs;
-    if( fs )
-        delete fs;
+	if( id != 0 )
+		glDeleteProgram( id );
 }
 
-void ShaderProgram::SetFS( FragmentShader* pFS ) {
-    fs = pFS;
+void ShaderProgram::SetVertex( Shader* vs ) {
+	vertex = vs;
 }
 
-void ShaderProgram::SetVS( VertexShader* pVS ) {
-    vs = pVS;
+void ShaderProgram::SetFragment( Shader* fs ) {
+	fragment = fs;
 }
 
 int ShaderProgram::GetUniformLocation( const char* s ) {
-    return glGetUniformLocation( id, s );
+	return glGetUniformLocation( id, s );
 }
 
 void ShaderProgram::SetCameraUse( bool use ) {
-    usesCamera = use;
+	usesCamera = use;
 }
 
 void ShaderProgram::Link() {
-    Info( "Linking shader program..." );
-    if( id == 0 ) {
-        if( vs == NULL )
-            Error( "Couldn't link shader program : vertex shader isn't set." );
-        if( fs == NULL )
-            Error( "Couldn't link shader program : fragment shader isn't set." );
-        id = glCreateProgram();
-    }
-    glAttachShader( id, vs->id );
-    glAttachShader( id, fs->id );
-    glLinkProgram( id );
+	Info( "Linking shader program..." );
+	if( id == 0 ) {
+		if( vertex == NULL )
+			Error( "Couldn't link shader program : vertex shader isn't set." );
+		if( fragment == NULL )
+			Error( "Couldn't link shader program : fragment shader isn't set." );
+		id = glCreateProgram();
+	}
+	glAttachShader( id, vertex->id );
+	glAttachShader( id, fragment->id );
+	glLinkProgram( id );
 
-    GLint result = GL_FALSE;
+	GLint result = GL_FALSE;
 
-    glGetProgramiv( id, GL_LINK_STATUS, &result );
-    if( result == GL_FALSE ) {
-        int logLength;
-        glGetProgramiv( id, GL_INFO_LOG_LENGTH, &logLength );
-        char errorMsg[logLength];
-        glGetProgramInfoLog( id, logLength, NULL, errorMsg );
-        Error( errorMsg );
-    }
-    else
-        Append( " Success" );
+	glGetProgramiv( id, GL_LINK_STATUS, &result );
+	if( result == GL_FALSE ) {
+		int logLength;
+		glGetProgramiv( id, GL_INFO_LOG_LENGTH, &logLength );
+		char errorMsg[logLength];
+		glGetProgramInfoLog( id, logLength, NULL, errorMsg );
+		Error( errorMsg );
+	}
+	else
+		Append( " Success" );
 }
 
 void ShaderProgram::Use() {
-    glUseProgram( id );
-}
-
-GLuint ShaderProgram::GetID()   const {
-    return id;
+	glUseProgram( id );
 }
 
 bool ShaderProgram::UsesCamera() {
-    return usesCamera;
+	return usesCamera;
 }

@@ -10,6 +10,7 @@
 #include "AnimManager.hpp"
 #include "TextManager.hpp"
 #include "Time.hpp"
+#include "Common.hpp"
 
 Game::Game() {
 
@@ -60,7 +61,9 @@ bool Game::Init() {
 
 	inputs = new InputManager( window );
 
-	ResourceManager::LoadShader( "sprite.vs", "sprite.fs", false );
+	ResourceManager::LoadShader( "sprite.vs" );
+	ResourceManager::LoadShader( "sprite.fs" );
+	ResourceManager::LoadShaderProgram( "sprite.vs", "sprite.fs", NoCamera );
 	ResourceManager::LoadTexture( "tetriminos.png" );
 	ResourceManager::LoadTexture( "font.png" );
 	ResourceManager::LoadTexture( "menu.png" );
@@ -68,9 +71,9 @@ bool Game::Init() {
 	ComponentManager::AddComponentType<PhysicsComponent>();
 	ComponentManager::AddComponentType<GraphicComponent>( 50 );
 
-	GraphicSystem::AddSpriteBatch( "tetriminos", new SpriteBatch( ResourceManager::GetTexture( "tetriminos.png" ), ResourceManager::GetShader( "sprite" ) ) );
-	GraphicSystem::AddSpriteBatch( "font", new SpriteBatch( ResourceManager::GetTexture( "font.png" ), ResourceManager::GetShader( "sprite" ) ) );
-	GraphicSystem::AddSpriteBatch( "menu", new SpriteBatch( ResourceManager::GetTexture( "menu.png" ), ResourceManager::GetShader( "sprite" ) ) );
+	GraphicSystem::AddSpriteBatch( "tetriminos", new SpriteBatch( ResourceManager::GetTexture( "tetriminos.png" ), ResourceManager::GetShaderProgram( "sprite" ) ) );
+	GraphicSystem::AddSpriteBatch( "font", new SpriteBatch( ResourceManager::GetTexture( "font.png" ), ResourceManager::GetShaderProgram( "sprite" ) ) );
+	GraphicSystem::AddSpriteBatch( "menu", new SpriteBatch( ResourceManager::GetTexture( "menu.png" ), ResourceManager::GetShaderProgram( "sprite" ) ) );
 
 	TextManager::Init();
 
@@ -143,9 +146,9 @@ void Game::Exit() {
 	fclose( gamelog );
 }
 
-GLFWwindow* Game::GetWindow() const {
-	return window;
-}
+//GLFWwindow* Game::GetWindow() const {
+//	return window;
+//}
 
 InputManager* Game::GetInputManager() const {
 	return inputs;

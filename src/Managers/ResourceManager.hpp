@@ -4,16 +4,24 @@
 
 class Texture;
 class ShaderProgram;
+class Shader;
+
+enum ShaderCameraMode {
+	NoCamera = false,
+	Camera = true
+};
 
 namespace ResourceManager {
 
-    void LoadTexture( const std::string& file );
-    void LoadShader( const std::string& vertex, const std::string& fragment, bool camera );
+	void LoadTexture( const char* file );
+	void LoadShaderProgram( const char* vertex, const char* fragment, ShaderCameraMode camera );
+	void LoadShader( const char* file );
 
-    Texture* GetTexture( const std::string& name );
-    ShaderProgram* GetShader( const std::string& name );
+	Texture* GetTexture( const char* name );
+	ShaderProgram* GetShaderProgram( const char* name );
+	Shader* GetShader( const char* name );
 
-    void UnloadAll();
+	void UnloadAll();
 
 }
 

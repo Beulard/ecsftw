@@ -1,7 +1,10 @@
 [][][][    TETRIS    ][][][]
 
 
+[INFO] : Loading vertex shader sprite.vs
 [INFO] : Compiling vertex shader... Success
+[INFO] : Loading fragment shader sprite.fs
 [INFO] : Compiling fragment shader... Success
+[INFO] : Loading shader program sprite
 [INFO] : Linking shader program... Success
 

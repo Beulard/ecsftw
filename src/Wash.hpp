@@ -7,7 +7,7 @@ typedef u32 wash;
 
 namespace Wash {
 
-    u32 Get( const std::string& str );
+	u32 Get( const std::string& str );
 
 }
 

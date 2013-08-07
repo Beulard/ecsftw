@@ -13,7 +13,7 @@ CONFIG(debug) {
 
 INCLUDEPATH += $$PWD/include + $$PWD/src + $$PWD/src/Systems + $$PWD/src/Factories + $$PWD/src/Managers
 
-LIBS += -L$$PWD/lib/ -lglew32 -lglfw3 -lopengl32 -lgdi32 -lpng -lzlib -static -static-libgcc -static-libstdc++
+LIBS += -L$$PWD/lib/ -lopenal -lglew32 -lglfw3 -lopengl32 -lgdi32 -lpng -lzlib -static -static-libgcc -static-libstdc++
 
 SOURCES += \
     src/FileStream.cpp \
@@ -21,10 +21,8 @@ SOURCES += \
     src/Common.cpp \
     src/Game.cpp \
     src/SpriteBatch.cpp \
-    src/VertexShader.cpp \
     src/ShaderProgram.cpp \
     src/Shader.cpp \
-    src/FragmentShader.cpp \
     src/Texture.cpp \
     src/Systems/PhysicsSystem.cpp \
     src/Wash.cpp \
@@ -46,7 +44,6 @@ HEADERS += \
     src/Game.hpp \
     src/vec2.hpp \
     src/SpriteBatch.hpp \
-    src/VertexShader.hpp \
     src/ShaderProgram.hpp \
     src/Shader.hpp \
     src/Texture.hpp \
@@ -64,5 +61,6 @@ HEADERS += \
     src/Managers/EntityManager.hpp \
     src/Managers/ComponentManager.hpp \
     src/Managers/TextManager.hpp \
-    src/Managers/AnimManager.hpp
+    src/Managers/AnimManager.hpp \
+    src/Output.hpp
 

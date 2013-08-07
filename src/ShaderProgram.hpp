@@ -1,38 +1,37 @@
 #ifndef WATER_SHADERPROGRAM
 #define WATER_SHADERPROGRAM
-#include "VertexShader.hpp"
-#include "FragmentShader.hpp"
+#include "GL/glew.h"
+
+class Shader;
 
 class ShaderProgram
 {
-    public:
-        ShaderProgram();
-        ShaderProgram( VertexShader& pVS, FragmentShader& pFS );
-        ~ShaderProgram();
+	public:
+		ShaderProgram();
+		ShaderProgram( Shader& vs, Shader& fs );
+		~ShaderProgram();
 
-        //  These functions do not link the shader after being used. Remember to do it manually
-        void SetFS( FragmentShader* pFS );
-        void SetVS( VertexShader* pVS );
-        ////
+		//  These functions do not link the shader after being used. Remember to do it manually
+		void SetVertex( Shader* vs );
+		void SetFragment( Shader* fs );
+		////
 
-        int GetUniformLocation( const char* s );
+		int GetUniformLocation( const char* s );
 
-        void SetCameraUse( bool use );
+		void SetCameraUse( bool use );
 
-        GLuint GetID()  const;
+		//  Link the program with the shaders.
+		void Link();
+		//  Use the shader program for rendering.
+		void Use();
 
-        //  Link the program with the shaders.
-        void Link();
-        //  Use the shader program for rendering.
-        void Use();
+		bool UsesCamera();
 
-        bool UsesCamera();
-
-    private:
-        VertexShader* vs;
-        FragmentShader* fs;
-        GLuint id;
-        bool usesCamera;
+	private:
+		Shader* vertex;
+		Shader* fragment;
+		GLuint id;
+		bool usesCamera;
 };
 
 #endif // WATER_SHADERPROGRAM
